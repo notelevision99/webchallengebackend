@@ -9,8 +9,8 @@ namespace WebNongNghiep.Client.InterfaceService
 {
     public interface IClientBlogServices
     {
-        Task<(IEnumerable<Cl_BlogForList>,int)> GetBlogsByCateId(int blogCategoryId, IFopRequest request);
-        Task<Cl_BlogForDetails> GetBlogById(int blogId);
+       Task<(IEnumerable<Cl_BlogForList>,int)> GetBlogsByCateId(int blogCategoryId, IFopRequest request);
+       Task<(Cl_BlogForDetails, IEnumerable<Cl_BlogForList>)> GetBlogById(int blogId);
 
     }
 }

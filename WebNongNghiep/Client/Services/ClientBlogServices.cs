@@ -17,31 +17,54 @@ namespace WebNongNghiep.Client.Services
         {
             _db = db;
         }
-        public async Task<Cl_BlogForDetails> GetBlogById(int blogId)
+        public async Task<(Cl_BlogForDetails, IEnumerable<Cl_BlogForList>)> GetBlogById(int blogId)
         {             
             var blog = await _db.Blogs
                 .Include(p => p.PhotoBlog)
+                .Include(p => p.CategoryBlog)
                 .FirstOrDefaultAsync(p => p.BlogId == blogId);
-            if(blog.PhotoBlog == null)
+
+            var blogsRelated = _db.Blogs.Include(p => p.CategoryBlog)
+                            .Where(p => p.CategoryBlogId == blog.CategoryBlogId)
+                            .Select(p => new Cl_BlogForList
+                            {
+                                BlogId = p.BlogId,
+                                Title = p.Title,
+                                ShortDescription = p.ShortDescription,
+                                BlogCategoryId = p.CategoryBlog.CategoryBlogId,
+                                BlogCategoryName = p.CategoryBlog.CategoryBlogName,
+                                PhotoUrl = p.PhotoBlog.Url
+                            }).Take(12).ToList();
+
+
+
+            if (blog.PhotoBlog == null)
             {
-                return new Cl_BlogForDetails
+                var blogForReturnNoPhoto = new Cl_BlogForDetails
                 {
                     BlogId = blog.BlogId,
-                    CreatedDate = blog.CreatedDate,
                     Title = blog.Title,
                     ShortDescription = blog.ShortDescription,
-                    Content = blog.Content,
+                    BlogCategoryId = blog.CategoryBlog.CategoryBlogId,
+                    BlogCategoryName = blog.CategoryBlog.CategoryBlogName,
                     PhotoUrl = null
                 };
+                return (blogForReturnNoPhoto, blogsRelated);
             }
-            return new Cl_BlogForDetails {
-                BlogId = blog.BlogId,
-                CreatedDate = blog.CreatedDate,
-                Title = blog.Title,
-                ShortDescription = blog.ShortDescription,
-                Content = blog.Content,
-                PhotoUrl = blog.PhotoBlog.Url
-            };
+            else
+            {
+                var blogForReturnHasPhoto = new Cl_BlogForDetails
+                {
+                    BlogId = blog.BlogId,
+                    Title = blog.Title,
+                    ShortDescription = blog.ShortDescription,
+                    BlogCategoryId = blog.CategoryBlog.CategoryBlogId,
+                    BlogCategoryName = blog.CategoryBlog.CategoryBlogName,
+                    PhotoUrl = blog.PhotoBlog.Url
+                };
+                return (blogForReturnHasPhoto, blogsRelated);
+            }
+  
         }
 
         public async Task<(IEnumerable<Cl_BlogForList>,int)> GetBlogsByCateId(int blogCategoryId, IFopRequest request)

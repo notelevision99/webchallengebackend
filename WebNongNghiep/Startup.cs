@@ -55,6 +55,7 @@ namespace WebNongNghiep
             services.AddScoped<IClientOrderServices, ClientOrderServices>();
             services.AddScoped<IClientBlogServices, ClientBlogServices>();
             services.AddScoped<IClientEmailSenderServices, ClientEmailSenderServices>();
+            services.AddScoped<IClientBlogCategoriesServices, ClientBlogCategoriesServices>();
 
             //
             services.AddIdentity<User, IdentityRole>(opt =>

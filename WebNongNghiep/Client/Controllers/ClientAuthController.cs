@@ -54,7 +54,6 @@ namespace WebNongNghiep.Client.Controllers
                     PhoneNumber = userDetails.PhoneNumber,
                 };
 
-
                 bool checkRoleUser = await _roleManager.RoleExistsAsync("User");
                 if (!checkRoleUser)
                 {
@@ -63,14 +62,13 @@ namespace WebNongNghiep.Client.Controllers
                     await _roleManager.CreateAsync(role);
                 }
 
-                var checkUserExist = await _userManager.FindByNameAsync(userDetails.UserName);
+                var checkUserExistUserName = await _userManager.FindByNameAsync(userDetails.UserName);                
                 var checkUserEmailExist = await _userManager.FindByEmailAsync(userDetails.Email);
-
-                if (checkUserExist != null || checkUserEmailExist != null)
+                
+                if (checkUserExistUserName != null || checkUserEmailExist != null)
                 {
                     return new BadRequestObjectResult(new { Message = "Tài khoản đã tồn tại" });
                 }
-
 
                 var result = await _userManager.CreateAsync(identityUser, userDetails.Password);            
                 //Email Confirm
@@ -80,8 +78,7 @@ namespace WebNongNghiep.Client.Controllers
                     await _userManager.AddToRoleAsync(identityUser, "User");
                     return Ok(new { Message = "Đăng kí thành công!" });
                 }
-                return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra" });
-               
+                return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra" });            
             }
             catch (Exception ex)
             {

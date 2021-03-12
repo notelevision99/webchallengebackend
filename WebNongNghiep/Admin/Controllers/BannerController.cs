@@ -21,12 +21,12 @@ namespace WebNongNghiep.Admin.Controllers
         {
             _bannerServices = bannerServices;
         }
-        [HttpPost("{orderId}")]
-        public async Task<IActionResult> CreateBanner(int orderId,  BannerToUpLoad bannerPhoto)
+        [HttpPost("{orderId}/{width}/{height}")]
+        public async Task<IActionResult> CreateBanner(int orderId, int width, int height, BannerToUpLoad bannerPhoto)
         {
             try
             {
-                var banner = await _bannerServices.UploadBanner(orderId, bannerPhoto);
+                var banner = await _bannerServices.UploadBanner(orderId, width, height, bannerPhoto);
                 if (banner == 0)
                 {
                     return new BadRequestObjectResult(new { Message = "Thêm thất bại" });

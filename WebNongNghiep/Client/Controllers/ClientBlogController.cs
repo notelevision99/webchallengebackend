@@ -39,12 +39,12 @@ namespace WebNongNghiep.Client.Controllers
             }          
         }
         [HttpGet("blogs/{blogId}")]
-        public async Task<IActionResult> GetOrderById(int blogId)
+        public async Task<IActionResult> GetBlogById(int blogId)
         {
             try
             {
                 var result = await _blogServices.GetBlogById(blogId);
-                if(result == null)
+                if(result == (null, null))
                 {
                     return new BadRequestObjectResult(new { Message = "Không tìm thấy tin này. Vui lòng thử lại" });
                 }
@@ -55,5 +55,6 @@ namespace WebNongNghiep.Client.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
         }
+
     }
 }

@@ -33,7 +33,7 @@ namespace WebNongNghiep.Admin.Services
 
             _cloudinary = new Cloudinary(account);
         }
-        public async Task<int> UploadBanner(int orderId, BannerToUpLoad bannerPhoto)
+        public async Task<int> UploadBanner(int orderId,int width, int height, BannerToUpLoad bannerPhoto)
         {
             Banner banner;
             var bannerCheckExist = await _db.Banners.FirstOrDefaultAsync(p => p.OrderId == orderId);
@@ -54,7 +54,7 @@ namespace WebNongNghiep.Admin.Services
                             {
                                 File = new FileDescription(bannerPhoto.File.Name, stream),
                                 Transformation = new Transformation()           //  *
-                                                .Width(728).Height(200)
+                                                .Width(width).Height(height)
                                                 .Crop("fill")
                                                 .Gravity("face")
                             };
