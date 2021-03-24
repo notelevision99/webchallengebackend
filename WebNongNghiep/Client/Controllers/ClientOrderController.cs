@@ -14,8 +14,8 @@ using WebNongNghiep.Helper;
 namespace WebNongNghiep.Client.Controllers
 {
     [Route("/api/orders")]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-    [Authorize(Roles = "User")]
+    //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    //[Authorize(Roles = "User")]
     [ApiController]
     public class ClientOrderController : Controller
     {

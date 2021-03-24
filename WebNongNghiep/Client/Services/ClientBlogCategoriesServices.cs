@@ -20,7 +20,9 @@ namespace WebNongNghiep.Client.Services
             var blogCategoriesList = _db.CategoryBlogs.Select(p => new Cl_BlogCategoriesList
             {
                 CategoryBlogId = p.CategoryBlogId,
-                BlogCategoriesName = p.CategoryBlogName
+                BlogCategoriesName = p.CategoryBlogName,
+                UrlSeoCategoryBlog = p.UrlSeoCategoryBlog
+                
             }).ToList();
             return  blogCategoriesList;
 

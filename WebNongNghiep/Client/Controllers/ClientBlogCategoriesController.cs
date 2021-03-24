@@ -49,5 +49,6 @@ namespace WebNongNghiep.Client.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
         }
+       
     }
 }

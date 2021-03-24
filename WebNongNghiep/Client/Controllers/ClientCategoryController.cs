@@ -40,13 +40,13 @@ namespace WebNongNghiep.Client.Controllers
             }
            
         }    
-        [HttpGet("getproductsbycatename/{cateName}")]      
-        public async Task<IActionResult> GetProductsByCateId(string cateName,[FromQuery] FilterModel filterParams)
+        [HttpGet("getproductsbycateid/{cateId}")]      
+        public async Task<IActionResult> GetProductsByCateId(int cateId,[FromQuery] FilterModel filterParams)
         {
             
             try
             {             
-                var result = await _categoryServices.GetProductsByCateName(cateName, filterParams);
+                var result = await _categoryServices.GetProductsByCateId(cateId, filterParams);
                 if (result == (null,0))
                 {
                     return new BadRequestObjectResult(new { Message = "Có lỗi xảy ra khi tìm kiếm sản phẩm" });

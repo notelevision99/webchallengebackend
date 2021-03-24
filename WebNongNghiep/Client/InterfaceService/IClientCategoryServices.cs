@@ -13,7 +13,7 @@ namespace WebNongNghiep.Client.InterfaceService
     public interface IClientCategoryServices
     {
         Task<IEnumerable<Cl_CategoryToReturn>> GetListCategories();
-        Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateName(string cateName, FilterModel feature_hash);
+        Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateId(int cateId, FilterModel feature_hash);
         
  
     }

@@ -8,5 +8,6 @@ namespace WebNongNghiep.Admin.ModelView.CategoryBlogView
     public class CategoryBlogForCreation
     {
         public string CategoryBlogName { get; set; }
+        public string UrlSeoCategoryBlog { get; set; }
     }
 }

@@ -55,6 +55,43 @@ namespace WebNongNghiep.Client.Controllers
                 return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
             }
         }
+        [HttpGet("blogs/getblogsbyurlseo/{urlSeoCategoryBlog}")]
+        public async Task<IActionResult> GetBlogsByCategoryBlog(string urlSeoCategoryBlog, [FromQuery] FopQuery request)
+        {
+            try
+            {
+                var fopRequest = FopExpressionBuilder<Cl_BlogForList>.Build(request.Filter, request.Order, request.PageNumber, request.PageSize);
+                var (blogsReturn, totalCount) = await _blogServices.GetBlogsByUrlSeoCategoryBlog(urlSeoCategoryBlog, fopRequest);
+                if (blogsReturn.Count() == 0)
+                {
+                    return new BadRequestObjectResult(new { Message = "Tin tức hiện đang trống. Chúng tôi sẽ cập nhật trong thời gian sớm nhất" });
+                }
+                var response = new PagedResult<IEnumerable<Cl_BlogForList>>((blogsReturn), totalCount, request.PageNumber, request.PageSize); ;
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
 
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+        }
+
+        [HttpGet("blogs/getblogbyurlseo/{urlSeoBlog}")]
+        public async Task<IActionResult> GetBlogByUrlSeoBlog(string urlSeoBlog)
+        {
+            try
+            {
+                var result = await _blogServices.GetBlogByUrlSeoBlog(urlSeoBlog);
+                if (result == (null, null))
+                {
+                    return new BadRequestObjectResult(new { Message = "Không tìm thấy tin này. Vui lòng thử lại" });
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { Message = ex.Message.ToString() });
+            }
+        }
     }
 }

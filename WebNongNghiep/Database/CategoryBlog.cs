@@ -11,6 +11,7 @@ namespace WebNongNghiep.Database
         [Key]
         public int CategoryBlogId { get; set; }
         public string CategoryBlogName { get; set; }
+        public string UrlSeoCategoryBlog { get; set; }
         public virtual ICollection<Blog> Blogs { get; set; }
     }
 }

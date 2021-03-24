@@ -12,6 +12,7 @@ namespace WebNongNghiep.Admin.ModelView.BlogView
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
         public int BlogCategoryId { get; set; }
+        public string UrlSeoBlog { get; set; }
         public BlogForCreation()
         {
             CreatedDate = DateTime.Now;

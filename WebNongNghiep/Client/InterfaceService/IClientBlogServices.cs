@@ -11,6 +11,7 @@ namespace WebNongNghiep.Client.InterfaceService
     {
        Task<(IEnumerable<Cl_BlogForList>,int)> GetBlogsByCateId(int blogCategoryId, IFopRequest request);
        Task<(Cl_BlogForDetails, IEnumerable<Cl_BlogForList>)> GetBlogById(int blogId);
-
+       Task<(Cl_BlogForDetails, IEnumerable<Cl_BlogForList>)> GetBlogByUrlSeoBlog(string urlSeoBlog);
+       Task<(IEnumerable<Cl_BlogForList>, int)> GetBlogsByUrlSeoCategoryBlog(string urlSeoCateogryBlog, IFopRequest request);
     }
 }

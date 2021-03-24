@@ -21,6 +21,7 @@ namespace WebNongNghiep.Database
   
         public int CategoryBlogId { get; set; }
         public virtual PhotoBlog PhotoBlog { get; set; }
+        public string UrlSeoBlog { get; set; }
         public virtual CategoryBlog CategoryBlog { get; set; }
 
     }

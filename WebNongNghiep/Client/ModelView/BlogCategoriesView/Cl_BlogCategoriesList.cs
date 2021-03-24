@@ -9,5 +9,6 @@ namespace WebNongNghiep.Client.ModelView.BlogCategoriesView
     {
         public int CategoryBlogId { get; set; }
         public string BlogCategoriesName { get; set; }
+        public string UrlSeoCategoryBlog { get; set; }
     }
 }

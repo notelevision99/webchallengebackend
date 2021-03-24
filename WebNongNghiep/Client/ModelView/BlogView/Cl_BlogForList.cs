@@ -13,6 +13,8 @@ namespace WebNongNghiep.Client.ModelView.BlogView
         public int BlogCategoryId { get; set; }
         public string BlogCategoryName { get; set; }
         public string PhotoUrl { get; set; }
+        public string UrlSeoCategoryBlog { get; set; }
+        public string UrlSeoBlog { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace WebNongNghiep.Services
         public async Task<UserToReturn> Register(UserDetails userDto)
         {
             var identityUser = new User() { UserName = userDto.UserName, Email = userDto.Email, PhoneNumber = userDto.PhoneNumber };
-            var checkEmailExist = userManager.FindByEmailAsync(userDto.Email);
+            var checkEmailExist = await userManager.FindByEmailAsync(userDto.Email);
 
             bool checkRoleUser = await roleManager.RoleExistsAsync("Admin");
             if (!checkRoleUser)

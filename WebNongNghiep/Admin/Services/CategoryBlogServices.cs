@@ -19,11 +19,13 @@ namespace WebNongNghiep.Admin.Services
         public async Task<int> AddCategoryBlog(CategoryBlogForCreation cateDto)
         {
             var checkcategoryExist = await _db.CategoryBlogs.Where(p => p.CategoryBlogName == cateDto.CategoryBlogName).FirstOrDefaultAsync();
-            if (checkcategoryExist == null)
+            var checkUrlSeoCateBlogExist = await _db.CategoryBlogs.Where(p => p.UrlSeoCategoryBlog == cateDto.UrlSeoCategoryBlog).FirstOrDefaultAsync();
+            if (checkcategoryExist == null && checkUrlSeoCateBlogExist == null)
             {
                 CategoryBlog category = new CategoryBlog
                 {
-                    CategoryBlogName = cateDto.CategoryBlogName
+                    CategoryBlogName = cateDto.CategoryBlogName,
+                    UrlSeoCategoryBlog = cateDto.UrlSeoCategoryBlog
                 };
                 _db.CategoryBlogs.Add(category);
                 await _db.SaveChangesAsync();
@@ -49,7 +51,8 @@ namespace WebNongNghiep.Admin.Services
             var categoriesBlog = _db.CategoryBlogs.Select(p => new CategoryBlogForList
             {
                 CategoryBlogId = p.CategoryBlogId,
-                CategoryBlogName = p.CategoryBlogName
+                CategoryBlogName = p.CategoryBlogName,
+                UrlSeoCategoryBlog = p.UrlSeoCategoryBlog
             });
             return  categoriesBlog;
         }

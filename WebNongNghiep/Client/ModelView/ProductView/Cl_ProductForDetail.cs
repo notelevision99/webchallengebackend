@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebNongNghiep.Models;
 
 namespace WebNongNghiep.Client.ModelView.ProductView
 {
-    public class Cl_ProductForList
+    public class Cl_ProductForDetail
     {
         public int Id { get; set; }
 

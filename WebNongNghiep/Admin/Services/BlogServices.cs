@@ -20,24 +20,35 @@ namespace WebNongNghiep.Admin.Services
         }
         public async Task<BlogResponseForCreationPhoto> CreateBlog(BlogForCreation blogView)
         {
+            var checkUrlSeoBlogExist = _db.Blogs.FirstOrDefault(p => p.UrlSeoBlog == blogView.UrlSeoBlog);
+            var list = checkUrlSeoBlogExist;
             if (blogView == null)
             {
                 return null;
             }
-            Blog blogToReturn = new Blog
+            if(list == null)
             {
-                Title = blogView.Title,
-                ShortDescription = blogView.ShortDescription,
-                Content = blogView.Content,
-                CreatedDate = blogView.CreatedDate,
-                CategoryBlogId = blogView.BlogCategoryId
-
-            };
-             _db.Blogs.Add(blogToReturn);
-            await _db.SaveChangesAsync();
-            return new BlogResponseForCreationPhoto { 
-                BlogId = blogToReturn.BlogId,         
-            };
+                Blog blogToReturn = new Blog
+                {
+                    Title = blogView.Title,
+                    ShortDescription = blogView.ShortDescription,
+                    Content = blogView.Content,
+                    CreatedDate = blogView.CreatedDate,
+                    CategoryBlogId = blogView.BlogCategoryId,
+                    UrlSeoBlog = blogView.UrlSeoBlog,
+                };
+                _db.Blogs.Add(blogToReturn);
+                await _db.SaveChangesAsync();
+                return new BlogResponseForCreationPhoto
+                {
+                    BlogId = blogToReturn.BlogId,
+                };
+            }
+            return null;
+                
+            
+        
+            
         }
 
         public async Task<(IEnumerable<BlogForList>,int)> GetBlogs(int blogCategoryId, IFopRequest request)
@@ -54,6 +65,7 @@ namespace WebNongNghiep.Admin.Services
                                     ShortDescription = p.ShortDescription,
                                     BlogCategoryId = p.CategoryBlogId,
                                     BlogCategoryName = p.CategoryBlog.CategoryBlogName,
+                                    UrlSeoBlog = p.UrlSeoBlog,
                                     PhotoUrl = p.PhotoBlog.Url                                   
                                 }).ApplyFop(request);
             return (await blogs.ToListAsync(), totalCount);
@@ -77,6 +89,7 @@ namespace WebNongNghiep.Admin.Services
                     Title = blog.Title,
                     ShortDescription = blog.ShortDescription,
                     Content = blog.Content,
+                    UrlSeoBlog = blog.UrlSeoBlog,
                     Photo = null
                 };
             }
@@ -100,6 +113,7 @@ namespace WebNongNghiep.Admin.Services
                 Title = blog.Title,
                 ShortDescription = blog.ShortDescription,
                 Content = blog.Content,
+                UrlSeoBlog = blog.UrlSeoBlog,
                 Photo = photoReturn
             };
             
@@ -127,7 +141,11 @@ namespace WebNongNghiep.Admin.Services
             {
                 blogForUpdate.Content = blogDto.Content;
             }
-            if(blogDto.BlogCategoryId != 0)
+            if (blogDto.UrlSeoBlog != null)
+            {
+                blogForUpdate.UrlSeoBlog = blogDto.UrlSeoBlog;
+            }
+            if (blogDto.BlogCategoryId != 0)
             {
                 blogForUpdate.CategoryBlogId = blogDto.BlogCategoryId;
             }

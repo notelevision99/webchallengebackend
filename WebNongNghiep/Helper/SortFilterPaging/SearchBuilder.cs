@@ -48,7 +48,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
         }
 
         //build for getproductsbycateid
-        public (IEnumerable<Cl_ProductForList>, int) BuildProductxCateid(string cateName, MasterData entities, FilterModel filterModel)
+        public (IEnumerable<Cl_ProductForList>, int) BuildProductxCateid(int cateId, MasterData entities, FilterModel filterModel)
         {
             //if filter         
             var predicate = PredicateExtensions.PredicateExtensions.Begin<Product>();
@@ -87,7 +87,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
             {
                 var recordsByCateId = entities.Products
                     .Include(p => p.Category)              
-                    .Where(p => p.Category.CategoryName == cateName);
+                    .Where(p => p.Category.CategoryId == cateId);
 
                 var countRecordsResult = recordsByCateId.Where(predicate).Count();
 
@@ -160,7 +160,7 @@ namespace WebNongNghiep.Helper.SortFilterPaging
                 var recordsByCateId = entities
                     .Products
                     .Include(p => p.Category)
-                    .Where(p => p.Category.CategoryName == cateName);
+                    .Where(p => p.Category.CategoryId == cateId);
 
                 var countRecordsResult = recordsByCateId.Count();
 

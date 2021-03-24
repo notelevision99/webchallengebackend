@@ -135,21 +135,8 @@ namespace WebNongNghiep.Client.Services
                 .Include(p => p.Category)
                 .Include(p => p.Photos)
                 .Where(p => p.UrlSeo == urlSeo).FirstOrDefaultAsync();
-      
-            var productToReturn = new Cl_ProductForList
-            {
-                Id = productDetails.Id,
-                ProductName = productDetails.ProductName,
-                CategoryId = productDetails.CategoryId,
-                CategoryName = productDetails.Category.CategoryName,
-                Price = (int)productDetails.Price,
-                Company = productDetails.Company,
-                Weight = productDetails.Weight,
-                Description = productDetails.Description,
-                ProductDetails = productDetails.ProductDetails,
-                UrlSeo = productDetails.UrlSeo,
-                PhotoUrl = productDetails.Photos.First().Url
-            };
+
+            ///////Produdcts Related
             var productsRelated = _db.Products.Include(p => p.Category).Where(p => p.CategoryId == productDetails.CategoryId)
                 .Select(p => new Cl_ProductForList
                 {
@@ -160,11 +147,65 @@ namespace WebNongNghiep.Client.Services
                     Price = (int)p.Price,
                     Company = p.Company,
                     Weight = p.Weight,
-                    Description = p.Description,          
+                    Description = p.Description,
                     UrlSeo = p.UrlSeo,
                     PhotoUrl = p.Photos.First().Url
-                }).Take(12).ToList();        
-            return (productToReturn, productsRelated);
+                }).Take(12).ToList();
+            ////// End Product Related
+           
+            var photosToReturn = new List<Cl_PhotosForDetail>();
+            if (productDetails.Photos.Count > 0)
+            {
+                foreach (var photo in productDetails.Photos)
+                {
+                    var productPhoto = new Cl_PhotosForDetail
+                    {
+                        Id = photo.Id,
+                        Url = photo.Url,
+                        Description = photo.Description,
+                        DateAdded = photo.DateAdded,
+                        IsMain = photo.IsMain
+                    };
+
+                    photosToReturn.Add(productPhoto);
+                }
+
+                var productForReturn = new Cl_ProductForList
+                {
+                    Id = productDetails.Id,
+                    ProductName = productDetails.ProductName,
+                    CategoryId = productDetails.CategoryId,
+                    CategoryName = productDetails.Category.CategoryName,
+                    Price = (int)productDetails.Price,
+                    Description = productDetails.Description,
+                    ProductDetails = productDetails.ProductDetails,
+                    Weight = productDetails.Weight,
+                    Company = productDetails.Company,
+                    Photos = photosToReturn,
+                };
+                return (productForReturn,productsRelated);
+            }
+            else
+            {
+                var productToReturn = new Cl_ProductForList
+                {
+                    Id = productDetails.Id,
+                    ProductName = productDetails.ProductName,
+                    CategoryId = productDetails.CategoryId,
+                    CategoryName = productDetails.Category.CategoryName,
+                    Price = (int)productDetails.Price,
+                    Company = productDetails.Company,
+                    Weight = productDetails.Weight,
+                    Description = productDetails.Description,
+                    ProductDetails = productDetails.ProductDetails,
+                    UrlSeo = productDetails.UrlSeo,
+                    PhotoUrl = null
+                };
+
+                return (productToReturn, productsRelated);
+            }
+
+            
         }
     }
 }

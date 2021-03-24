@@ -27,40 +27,40 @@ namespace WebNongNghiep.Controllers
             _authServices = authServices;
             this.userManager = userManager;
         }
-        //[HttpPost]
-        //[Route("Register")]
-        //public async Task<IActionResult> Register([FromBody] UserDetails userDetails)
-        //{
-        //    try
-        //    {
-        //        if (userDetails == null || userDetails.UserName == null
-        //        || userDetails.Email == null || userDetails.Password == null)
-        //        {
-        //            return new BadRequestObjectResult(new { Message = "Đăng kí thất bại" });
-        //        }
-        //        var registerUser = await _authServices.Register(userDetails);
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-        //        var user = new UserDetails
-        //        {
-        //            UserName = registerUser.UserName,
-        //            Email = registerUser.Email,
-        //            Message = registerUser.Message,
-        //            Address = registerUser.Address,
-        //            PhoneNumber = registerUser.PhoneNumber
-                    
-        //        };
-        //        return Ok(user);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message.ToString());
-        //    }
+        [HttpPost]
+        [Route("Register")]
+        public async Task<IActionResult> Register([FromBody] UserDetails userDetails)
+        {
+            try
+            {
+                if (userDetails == null || userDetails.UserName == null
+                || userDetails.Email == null || userDetails.Password == null)
+                {
+                    return new BadRequestObjectResult(new { Message = "Đăng kí thất bại" });
+                }
+                var registerUser = await _authServices.Register(userDetails);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = new UserDetails
+                {
+                    UserName = registerUser.UserName,
+                    Email = registerUser.Email,
+                    Message = registerUser.Message,
+                    Address = registerUser.Address,
+                    PhoneNumber = registerUser.PhoneNumber
+
+                };
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
 
 
-        //}
+        }
 
         [HttpPost]
         [Route("Login")]

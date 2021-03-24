@@ -14,6 +14,7 @@ namespace WebNongNghiep.Admin.ModelView.BlogView
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public string Content { get; set; }
+        public string UrlSeoBlog { get; set; }
         public PhotoForDetail Photo { get; set; }
     }
 }

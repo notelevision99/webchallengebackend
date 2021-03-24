@@ -29,7 +29,7 @@ namespace WebNongNghiep.Client.Services
             return await listCategories.ToListAsync();
         }
 
-        public async Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateName(string cateName, FilterModel features_hash)
+        public async Task<(IEnumerable<Cl_ProductForList>, int)> GetProductsByCateId(int cateId, FilterModel features_hash)
         {
 
             SearchParameters seacrhParameters = new SearchParameters();
@@ -96,7 +96,7 @@ namespace WebNongNghiep.Client.Services
                 SetWeight(seacrhParameters.Weight).
                 SetSortBy(seacrhParameters.SortBy)//15
 
-                .BuildProductxCateid(cateName, _db, features_hash);
+                .BuildProductxCateid(cateId, _db, features_hash);
                 return (searchQuery.Item1, searchQuery.Item2);
             }
 
@@ -104,9 +104,9 @@ namespace WebNongNghiep.Client.Services
             {
                 var countProductsByCateId = _db.Products
                     .Include(p=>p.Category)
-                    .Where(p => p.Category.CategoryName == cateName)
+                    .Where(p => p.Category.CategoryId == cateId)
                     .Count();
-                var productsByCateId = _db.Products.Include(p => p.Category).Where(p => p.Category.CategoryName == cateName)
+                var productsByCateId = _db.Products.Include(p => p.Category).Where(p => p.Category.CategoryId == cateId)
                 .Select(p => new Cl_ProductForList
                 {
                     Id = p.Id,
@@ -119,7 +119,7 @@ namespace WebNongNghiep.Client.Services
                     UrlSeo = p.UrlSeo,
                     PhotoUrl = p.Photos.First().Url,
                 });
-                var query = new SearchBuilder().BuildProductxCateid(cateName, _db, features_hash);
+                var query = new SearchBuilder().BuildProductxCateid(cateId, _db, features_hash);
                 return (query.Item1, query.Item2);
             }
 
