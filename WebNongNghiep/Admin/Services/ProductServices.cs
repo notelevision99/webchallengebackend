@@ -90,6 +90,7 @@ namespace WebNongNghiep.Services
                     Price = product.Price,                  
                     Description = product.Description,
                     ProductDetails = product.ProductDetails,
+                    UrlSeo = product.UrlSeo,
                     Weight = product.Weight,
                     Company = product.Company,
                     Photos = photosToReturn,
@@ -114,7 +115,7 @@ namespace WebNongNghiep.Services
         public async Task<ProductForDetail> CreateProduct(ProductForCreation productDto)
         {
             var checkUrlSeoExist = _db.Products.Where(p => p.UrlSeo == productDto.UrlSeo);
-            if(checkUrlSeoExist == null)
+            if(checkUrlSeoExist != null)
             {
                 //add product in db     
                 Product productToReturn = new Product
@@ -168,7 +169,11 @@ namespace WebNongNghiep.Services
                 product.Price = productDto.Price;
                 product.Description = productDto.Description;
                 product.ProductDetails = productDto.ProductDetails;
+                product.UrlSeo = productDto.UrlSeo;
+                product.Weight = productDto.Weight;
+                product.Company = productDto.Company;
                 product.PhotoUrl = productDto.PhotoUrl;
+                
                 _db.Products.Update(product);
                 await _db.SaveChangesAsync();
             }
